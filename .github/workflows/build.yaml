@@ -51,6 +51,7 @@ jobs:
           pip3 install ziglang
 
           rustup target add ${{ matrix.target }}
+          cargo install cargo-zigbuild
 
       - name: Build
         run: |
