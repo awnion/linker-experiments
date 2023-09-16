@@ -26,4 +26,11 @@ RUN <<EOF
     rustup target add aarch64-unknown-linux-musl
 EOF
 
-RUN cargo install cargo-zigbuild
+# RUN cargo install cargo-zigbuild
+
+RUN <<EOF
+    echo `arch`
+    curl -OL https://github.com/rust-cross/cargo-zigbuild/releases/download/v0.17.3/cargo-zigbuild-v0.17.3.$(arch)-unknown-linux-musl.tar.gz
+    tar xzvf cargo-zigbuild-v0.17.3.$(arch)-unknown-linux-musl.tar.gz
+    mv cargo-zigbuild /usr/bin
+EOF
