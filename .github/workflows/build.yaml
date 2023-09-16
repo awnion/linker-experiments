@@ -52,10 +52,11 @@ jobs:
         run: |
           sudo apt update -yq
           sudo apt install -yq $packages
-          pip3 install ziglang
+          type zig || pip3 install ziglang
 
           rustup target add ${{ matrix.target }}
-          cargo install cargo-zigbuild
+          test -f ~/.cargo/bin/cargo-zigbuild || cargo install cargo-zigbuild
+        shell: bash
 
       - name: Build
         run: |
