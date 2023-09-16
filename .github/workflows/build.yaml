@@ -46,9 +46,9 @@ jobs:
             llvm
             python3-pip
         run: |
-          apt update -yq
-          apt install -yq $packages
-          PIP_BREAK_SYSTEM_PACKAGES=1 pip3 install ziglang
+          sudo apt update -yq
+          sudo apt install -yq $packages
+          pip3 install ziglang
 
           rustup target add ${{ matrix.target }}
 
