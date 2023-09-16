@@ -60,11 +60,12 @@ jobs:
       - name: Build
         run: |
           cargo zigbuild -r --target ${{ matrix.target }}
+          mv target/${{ matrix.target }}/release/linker-experiments linker-experiments-${{ matrix.target }}
 
       - name: Publish
         uses: softprops/action-gh-release@v1
         with:
           prerelease: true
           files: |
-            target/${{ matrix.target }}/release/linker-experiments
+            linker-experiments-${{ matrix.target }}
           tag_name: rc-${{ github.ref_name }}-${{ github.run_number }}
