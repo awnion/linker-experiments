@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - ci/*
 
 permissions:
   contents: write
@@ -36,17 +37,26 @@ jobs:
 
       - name: Add cross compile Linux tools
         env:
+          # packages: >-
+          #   build-essential
+          #   cmake
+          #   perl
+          #   curl
+          #   clang
+          #   libssl-dev
+          #   librocksdb-dev
+          #   protobuf-compiler
+          #   musl-dev
+          #   musl-tools
+          #   llvm
+          #   python3-pip
           packages: >-
             build-essential
             cmake
-            perl
             curl
             clang
-            libssl-dev
             librocksdb-dev
             protobuf-compiler
-            musl-dev
-            musl-tools
             llvm
             python3-pip
         run: |
