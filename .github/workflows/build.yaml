@@ -48,10 +48,7 @@ jobs:
             build-essential
             cmake
             curl
-            clang
             librocksdb-dev
-            protobuf-compiler
-            llvm
             python3-pip
         run: |
           sudo apt update -yq
