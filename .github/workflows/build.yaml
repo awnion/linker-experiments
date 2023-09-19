@@ -73,5 +73,5 @@ jobs:
         with:
           prerelease: true
           files: |
-            linker-experiments-${{ matrix.target }}
+            linker-experiments-${{ matrix.target }}.tar.gz
           tag_name: rc-${{ github.ref_name }}-${{ github.run_number }}
