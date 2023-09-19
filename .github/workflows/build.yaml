@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - ci/*
 
 permissions:
   contents: write
@@ -24,7 +25,7 @@ jobs:
         uses: actions/checkout@v4
 
       # Cache
-      - name: Set up cargo cache
+      - name: Setup cargo cache
         uses: actions/cache@v3
         with:
           path: |
@@ -32,21 +33,24 @@ jobs:
             ~/.cargo/registry/index/
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
-          key: ${{ runner.os }}-cargo
+          key: builder-${{ runner.os }}-cargo
+
+      - name: Setup pip cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.pip/
+          key: builder-${{ runner.os }}-pip
 
       - name: Add cross compile Linux tools
         env:
           packages: >-
             build-essential
             cmake
-            perl
             curl
             clang
-            libssl-dev
             librocksdb-dev
             protobuf-compiler
-            musl-dev
-            musl-tools
             llvm
             python3-pip
         run: |
@@ -62,11 +66,12 @@ jobs:
         run: |
           cargo zigbuild -r --target ${{ matrix.target }}
           mv target/${{ matrix.target }}/release/linker-experiments linker-experiments-${{ matrix.target }}
+          tar czvf linker-experiments-${{ matrix.target }}.tar.gz linker-experiments-${{ matrix.target }}
 
       - name: Publish
         uses: softprops/action-gh-release@v1
         with:
           prerelease: true
           files: |
-            linker-experiments-${{ matrix.target }}
+            linker-experiments-${{ matrix.target }}.tar.gz
           tag_name: rc-${{ github.ref_name }}-${{ github.run_number }}
